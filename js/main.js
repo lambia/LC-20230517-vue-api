@@ -3,28 +3,38 @@ const { createApp } = Vue
 createApp({
     data() {
         return {
-            chiave: "valore",
-            booleanApi: 'https://flynn.boolean.careers/exercises/api/random/boolean',
-            intPath: 'https://flynn.boolean.careers/exercises/api/random/int',
-            wordPath: 'https://flynn.boolean.careers/exercises/api/random/word',
-            sentencePath: 'https://flynn.boolean.careers/exercises/api/random/sentence',
-            risposta: null
+            apiPath: {
+                baseUrl: "https://flynn.boolean.careers/exercises/api/",
+                boolean: 'random/boolean',
+                int: 'random/int',
+                word: 'random/word',
+                sentence: 'random/sentence',
+                mail: 'random/mail',
+            },
+            listaMail: [],
+            nuovaMail: ""
         }
     },
     methods: {
-        metodo() {
-            console.log("metodo che stampa un dato: ", this.chiave);
+        addMail() {
+            console.log(this.listaMail);
+            this.listaMail.push( this.nuovaMail );
+            this.nuovaMail = "";
+            console.log(this.listaMail);
+        },
+        caricaTutto() {
+            for (let i = 1; i <= 10; i++) {
+                axios.get( this.apiPath.baseUrl + this.apiPath.mail ).then((risposta) => {
+                    this.listaMail.push( risposta.data.response );
+                });
+            }
         }
     },
     mounted() {
         console.log("Mounted iniziato");
+        console.log(this.apiPath.baseUrl + this.apiPath.mail);
 
-        axios.get( this.sentencePath ).then((risposta) => {
-            // debugger;
-            console.log(risposta);
-            this.risposta = risposta.data.response;
-            this.chiave = risposta.data.response;
-        });
+        this.caricaTutto();
 
         console.log("Mounted terminato");
     }

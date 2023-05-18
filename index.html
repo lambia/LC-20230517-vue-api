@@ -12,13 +12,16 @@
 <body>
     
     <div id="app">
-        <span :class="chiave">Interpolato: {{chiave}}</span>
+        <input type="text" v-model="nuovaMail" @keyup.enter="addMail">
         <br><br>
-        <label>v-model: <input v-model="chiave"></label>
+        <button @click="caricaTutto">Carica dati</button>
         <br><br>
-        <button @click="metodo">Cliccami</button>
-        <br><br>
-        <span v-show="risposta != null">{{risposta}}</span>
+
+        <h2>Lista Email</h2>
+        <ul v-if="listaMail.length >= 10">
+            <li v-for="mail in listaMail">{{mail}}</li>
+        </ul>
+
 
     </div>
 
